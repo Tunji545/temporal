@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {AlertDangerComponent} from './alert-danger/alert-danger.component';
+import {AlertSuccessComponent} from './alert-success/alert-success.component';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +46,6 @@ import { Component } from '@angular/core';
       </ng-container>
     </option>
   </select>
-  <hr>
   <select [(ngModel)]="selectedSubject2">
     <ng-container *ngFor="let s of Subjects">
       <ng-container *ngIf="s !== 'SharePoints'">
@@ -52,6 +53,16 @@ import { Component } from '@angular/core';
       </ng-container>
     </ng-container>
   </select>
+  <hr>
+  <br>
+  <app-life-cycle></app-life-cycle>
+  <br>
+  <ng-container *ngComponentOutlet="alert"></ng-container>
+  <input type="button" value="toggle alert" (click)="showAlert()">
+  <br>
+  <app-employee></app-employee>
+  <br>
+  <app-employees></app-employees>
   </div>
     <ng-template #ifPart>
     <div>This is the if part</div>
@@ -69,6 +80,7 @@ export class AppComponent {
   Subjects: string[] = ["MS.NET", 'Java', "SharePoints"];
   selectedSubject1: string = "Java";
   selectedSubject2: string = "Java";
+  alert = AlertSuccessComponent;
 
   Add(a: number, b: number): number {
     return a + b;
@@ -83,6 +95,14 @@ export class AppComponent {
       this.show = false;
     } else {
       this.show = true;
+    }
+  }
+
+  showAlert() {
+    if(this.alert === AlertSuccessComponent) {
+      this.alert = AlertDangerComponent;
+    } else {
+      this.alert = AlertSuccessComponent;
     }
   }
 }

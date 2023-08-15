@@ -1,0 +1,8 @@
+<div>
+  All Employees
+  <hr>
+  <div *ngFor="let e of employees">
+    <app-employee [selected]="selectedEmp === e" [emp]="e"></app-employee>
+    <button (click)="makeBold(e)">MakeBold</button>
+  </div>
+</div>

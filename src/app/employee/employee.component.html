@@ -1,0 +1,13 @@
+<div>
+  employee works!
+  <hr>
+  <p *ngIf="selected; then boldEmp; else normalEmp;"></p>
+</div>
+<ng-template #boldEmp>
+  <strong>
+The following profile is for Id={{emp?.Id}}, Name={{emp?.Name}}, Salary={{emp?.Salary}}, Date={{emp?.Date}}, Type={{emp?.EmpType}}
+  </strong>
+</ng-template>
+<ng-template #normalEmp>
+The following profile is for Id={{emp?.Id}}, Name={{emp?.Name}}, Salary={{emp?.Salary}}, Date={{emp?.Date}}, Type={{emp?.EmpType}}
+</ng-template>

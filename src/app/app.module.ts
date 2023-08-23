@@ -8,6 +8,7 @@ import { AlertSuccessComponent } from './alert-success/alert-success.component';
 import { AlertDangerComponent } from './alert-danger/alert-danger.component';
 import {EmployeeComponent} from './employee/employee.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { PersonComponent } from './person/person.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { EmployeesComponent } from './employees/employees.component';
     AlertDangerComponent,
     EmployeeComponent,
     EmployeesComponent,
+    PersonComponent,
   ],
   imports: [
     BrowserModule,

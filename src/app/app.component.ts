@@ -6,103 +6,81 @@ import {AlertSuccessComponent} from './alert-success/alert-success.component';
   selector: 'app-root',
   template: `
     <div>
-    Welcome to {{title}}
-    <br>
-    1 + 1 = {{ 1 + 1}}
-    <br>
-    Add(1 + 1) + 5 = {{Add(1, 1) + 5}} 
-    <br>
-    10 is incremented and then the value is {{increment(10)}}
-    <br>
-   <button type="button" (click)="toggle()">Toggle Button</button>
-   <div *ngIf="show; then ifPart; else elsePart">This is Visible</div>
-     <hr>
-   <span [ngSwitch]="Duration">
-    <span *ngSwitchCase="1">One Day</span>
-    <span *ngSwitchCase="7">One Week</span>
-    <span *ngSwitchCase="30">One Month</span>
-    <span *ngSwitchDefault>Check the value</span>
-   </span>
-   <hr>
-   <p>Subjects
-    <span *ngFor="let s of Subjects; let i = index">
-      <span *ngIf="i !== 0">,</span>
-      {{s}}
-    </span>
-  </p>
-  <p>Subjects
-    <ng-template ngFor let-s [ngForOf]="Subjects"  let-i="index">
-      <ng-template [ngIf]="i !== 0">
-        <span>,</span>
-      </ng-template>
-      {{s}}
-    </ng-template>
-  </p>
-  <br>
-  <select [(ngModel)]="selectedSubject1">
-    <option *ngFor="let s of Subjects" [value]="s">
-      <ng-container *ngIf="s !== 'SharePoints'">
-        {{s}}
-      </ng-container>
-    </option>
-  </select>
-  <select [(ngModel)]="selectedSubject2">
-    <ng-container *ngFor="let s of Subjects">
-      <ng-container *ngIf="s !== 'SharePoints'">
-        <option value="{{s}}">{{s}}</option>
-      </ng-container>
-    </ng-container>
-  </select>
-  <hr>
-  <br>
-  <app-life-cycle></app-life-cycle>
-  <br>
-  <ng-container *ngComponentOutlet="alert"></ng-container>
-  <input type="button" value="toggle alert" (click)="showAlert()">
-  <br>
-  <app-employee></app-employee>
-  <br>
-  <app-employees></app-employees>
-  </div>
-    <ng-template #ifPart>
-    <div>This is the if part</div>
-    </ng-template>
-    <ng-template #elsePart>
-    <div>This is the else part</div>
-    </ng-template>
+      <input type="text" value="{{title}}">
+      <input type="text" [value]="title">
+      <input type="text" bind-value="title">
+      <input type="button" disabled value="Sample">
+      <input type="button" [disabled]="!isModified" value="Sample">
+      <input type="button" [hidden]="isHidden" value="{{title}}">
+      <hr>
+      Title: {{goodTitle}}
+      <br>
+      <div [innerHTML]="goodTitle"></div>
+      <hr>
+      <input type="button" (click)="onClick()" value="Hit me...">
+      <button on-click="onClick()">Hit me...</button>
+      <br>
+      <!-- <img src="/assets/images/logo.svg" alt="Logo svg" (mouseover)="onMouseOver($event)" (mouseout)="onMouseOut($event)">  {{eventType}} -->
+      <br>
+      <img src="/assets/images/logo.svg" alt="Logo svg" (mouseover)="onMouse($event)" (mouseout)="onMouse($event)">  {{eventType}}
+      <hr>
+      <input type="text" (keyup)="onKey($event)">
+      <br>
+      Keypress: {{keys}}, KeyValues: {{keyValue}}
+      <br>
+      <img #img1 src="/assets/images/logo.svg" alt="Logo svg" (mouseover)="img1.src='/assets/images/item-4.jpeg'" (mouseout)="img1.src='/assets/images/logo.svg'">  {{eventType}}
+      <br>
+      <input #key1 (keyup)="0">
+      <p>{{key1.value}}</p>
+      <br>
+      <input #key2 (keyup.enter)="onKey2(key2.value)">: {{keyValue2}}
+      <input #key2 (keyup.enter)="onKey2(key2.value)" (blur)="onKey2(key2.value)">: {{keyValue2}}
+      <input #key2 (keyup.enter)="onKey2(key2.value)" (change)="onKey2(key2.value)">: {{keyValue2}}
+      <hr> Two Way Binding <hr>
+      <app-person></app-person>
+      </div>
   `,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Olatunji Omisakin';
-  show: boolean = true;
-  Duration: number = 1;
-  Subjects: string[] = ["MS.NET", 'Java', "SharePoints"];
-  selectedSubject1: string = "Java";
-  selectedSubject2: string = "Java";
-  alert = AlertSuccessComponent;
+  title: string = "Olatunji Omisakin";
+  isModified: boolean = true;
+  isHidden: boolean = true;
+  goodTitle = `<span>Title: <script>alert('goodness never sleeps!')</script></span>`;
+  eventType: string = "";
+  keys: string = "";
+  keyValue: string = "";
+  keyValue2: string = "";
 
-  Add(a: number, b: number): number {
-    return a + b;
+  onClick() {
+    alert('Clicked.')
   }
 
-  increment(operand: number): number {
-    return ++operand;
-  }
+//  onMouseOver(evt: any) {
+//    evt.target.src = "/assets/images/item-4.jpeg";
+//    this.eventType = evt.type;
+//  }
 
-  toggle(): void {
-    if(this.show) {
-      this.show = false;
-    } else {
-      this.show = true;
+//  onMouseOut(evt: any) {
+//    evt.target.src = "/assets/images/logo.svg";
+//    this.eventType = evt.type
+//  }
+
+    onMouse(evt: any) {
+      if(evt.type === "mouseover") {
+        evt.target.src = "/assets/images/item-4.jpeg";
+      } else {
+        evt.target.src = "/assets/images/logo.svg";
+      }
     }
-  }
 
-  showAlert() {
-    if(this.alert === AlertSuccessComponent) {
-      this.alert = AlertDangerComponent;
-    } else {
-      this.alert = AlertSuccessComponent;
+    onKey(evt: any) {
+      this.keys += evt.key;
+      this.keyValue = evt.target.value;
     }
-  }
+
+    onKey2(value: string) {
+      //this.keyValue2 = value;
+      alert(value)
+    }
 }
